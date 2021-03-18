@@ -1,0 +1,9 @@
+.container{
+    border-bottom: 1px solid black;
+    color: black;
+    cursor: pointer;
+    &:hover{
+        // color: gray;
+        background-color: #c7bf75;
+    }
+}

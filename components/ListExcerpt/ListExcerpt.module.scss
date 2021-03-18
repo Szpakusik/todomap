@@ -1,0 +1,8 @@
+.card{
+    background-color: #f0e68c;
+    height: 50vh;
+    &:hover{
+        background-color: #c7bf75;
+        box-shadow: #c7bf75 2px 2px 1rem;
+    }
+}
