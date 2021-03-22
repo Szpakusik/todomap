@@ -1,0 +1,14 @@
+{
+    "cli": {
+        "migrationsDir": "src/db/migrations"
+    },
+    "entities": ["src/db/entities/*.ts"],
+    "logging": false,
+    "migrations": ["src/db/migrations/*.ts"],
+    "synchronize": true,
+    "type": "postgres",
+    "username": "",
+    "password": "",
+    "host": "",
+    "database":
+}

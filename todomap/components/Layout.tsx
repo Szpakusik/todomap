@@ -7,7 +7,7 @@ type Props = {
   title?: string
 }
 
-const Layout = ({ children, title = 'This is the default title' }: Props) => (
+const Layout = ({ children, title = 'ToDoMap' }: Props) => (
   <div>
     <Head>
       <title>{title}</title>
@@ -26,6 +26,10 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => (
         |{' '}
         <Link href="/users">
           <a>Users List</a>
+        </Link>{' '}
+        |{' '}
+        <Link href="/entry">
+          <a>Entry</a>
         </Link>{' '}
         | <a href="/api/users">Users API</a>
       </nav>
