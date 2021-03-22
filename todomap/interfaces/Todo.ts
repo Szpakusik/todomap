@@ -1,14 +1,16 @@
 export type TodoInterface = {
   id: number;
   body: string;
-  childrenListId?: number;
   eisenhoverQuarter?: number;
-  deadlines?: Deadline[];
+  parentListId?: number;
+  childListId?: number;
+  deadLines?: Deadline[];
   createdAt?: Date;
   modifiedAt?: Date;
 };
 
-type Deadline = {
+export type Deadline = {
+  todoId: number;
   description: string;
   severity: number;
   date: Date;

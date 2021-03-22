@@ -55,7 +55,10 @@ export const dummy: TodoListInterface[] = [
     {
         id: 3,
         title: "ToDoMap App",
-        todos: [{ id: 1, body: "Sub-List view" }],
+        todos: [
+            { id: 1, body: "Sub-List view" },
+            { id: 2, body: "Sub-List view" },
+        ],
     },
     {
         id: 4,
