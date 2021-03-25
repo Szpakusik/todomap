@@ -6,7 +6,8 @@
   "scripts": {
     "watch": "ts-node-dev --respawn ./src/index",
     "db:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate",
-    "db:migrate": "ts-node ./node_modules/typeorm/cli.js migration:run"
+    "db:migrate:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
+    "db:migrate:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
