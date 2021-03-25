@@ -1,4 +1,7 @@
 import { Connection, createConnection } from "typeorm"
+import Deadline from "./entities/Deadline";
+import Todo from "./entities/Todo";
+import TodoList from "./entities/TodoList";
 
 let connection: Connection;
 
@@ -9,11 +12,9 @@ export const initConnection = async (drop: boolean = true) => {
         host: process.env.DB_HOST,
         port: 5432,
         username: process.env.DB_USERNAME,
-        password: process.env.DB_PASSWORD,
+        password: process.env.DB_PASS,
         database: process.env.DB_NAME,
-        synchronize: drop,
-        dropSchema: drop,
-        entities: [__dirname + "/../entities/*.*"]
+        entities: [ TodoList, Todo, Deadline ]
     })
 }
 
