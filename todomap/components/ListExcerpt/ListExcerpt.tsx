@@ -18,7 +18,7 @@ const ListExcerpt: React.SFC<ListExcerptProps> = ({ title, todos, id }) => {
             <p className="h3 mb-1 text-dark text-center pt-3 font-weight-bold">{title}</p>
                 
             {todos.map(( todo ) => {
-                return <TodoContainer todo={todo} />
+                return <TodoContainer todo={todo} key={todo.id}/>
             })}
 
             <div className={"pt-3 px-2 w-100 text-dark text-center font-weight-bold"}>

@@ -10,14 +10,20 @@ export interface ListProps {
 }
 
 const List: React.SFC<ListProps> = ({ title, todos, setElapsed }) => {
+
+  const handleClick = async (id: number | undefined) => {
+    if( !id ) return
+    await setElapsed(id)
+  }
+
   return (
     <Col className={"col-md-12 p-4"}>
       <Card className={styles.card+" px-4"}>
         <p className="h3 mb-1 text-dark text-center pt-3 font-weight-bold">{title}</p>
             
         {todos.map(( todo: TodoInterface ) => {
-            return <div onClick={ () => setElapsed(todo.childrenListId ? todo.childrenListId : -1) }>
-              <TodoContainer todo={todo} />
+            return <div onClick={ () => handleClick(todo.childList?.id) } key={todo.id} >
+              <TodoContainer todo={todo}/>
             </div>
         })}
 

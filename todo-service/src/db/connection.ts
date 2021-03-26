@@ -17,7 +17,3 @@ export const initConnection = async (drop: boolean = true) => {
         entities: [ TodoList, Todo, Deadline ]
     })
 }
-
-const getConnection = () => connection;
-
-export default getConnection;
