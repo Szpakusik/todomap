@@ -7,13 +7,14 @@ export interface TodoProps {
 }
 
 const Todo: React.SFC<TodoProps> = ({ todo }) => {
+
     return (
         <div className={"pt-3 px-2 w-100 " + style.container}>
             
             <span className="h5 mb-0">{todo.body}</span>
 
             {
-                todo.childrenListId && (
+                todo.childList?.id && (
                 <div className={"d-inline-block pt-0 float-right h6"}>
                     <ArrowRightSquareFill />
                 </div>)

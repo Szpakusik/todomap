@@ -2,8 +2,8 @@ export type TodoInterface = {
   id?: number;
   body: string;
   eisenhoverQuarter?: number;
-  parentListId?: number;
-  childListId?: number;
+  parentList?: TodoListInterface;
+  childList?: TodoListInterface;
   deadLines?: Deadline[];
   createdAt?: Date;
   modifiedAt?: Date;
