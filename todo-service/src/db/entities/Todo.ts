@@ -10,17 +10,24 @@ export default class Todo {
     @Column()
     body: string;
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     eisenhoverQuarter: number;
 
     @ManyToOne(() => TodoList, todoList => todoList.todos)
     parentList: TodoList;
 
-    @OneToOne(() => TodoList)
+    @OneToOne(() => TodoList, {
+        nullable: true,
+        onDelete: "CASCADE"
+    })
     @JoinColumn()
-    childList: TodoList;
+    childList!: TodoList;
 
-    @OneToMany(() => Deadline, deadline => deadline.todo)
+    @OneToMany(() => Deadline, deadline => deadline.todo, {
+        nullable: true
+    })
     deadlines: Deadline[];
 
     @CreateDateColumn()

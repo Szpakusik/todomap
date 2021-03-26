@@ -1,5 +1,5 @@
 export type TodoInterface = {
-  id: number;
+  id?: number;
   body: string;
   eisenhoverQuarter?: number;
   parentListId?: number;
