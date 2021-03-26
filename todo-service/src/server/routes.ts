@@ -58,7 +58,7 @@ const setupRoutes = (app: Express) => {
 
       const todoList = await todoListRepository.find({
         where: { id: req.params.listId },
-        relations: ["todos", "todos.childList"],
+        relations: ["todos", "todos.childList", "todos.childList.todos"],
       });
       if (!todoList) return next(new Error("Invalid list ID!"));
       res.json(todoList);
@@ -73,6 +73,7 @@ const setupRoutes = (app: Express) => {
       return next(new Error("Invalid Body!"));
     }
     try {
+      
       const todoList = await todoListRepository.findOne(req.body.todoListId);
       if (!todoList) return next(new Error("Invalid todo list ID!"));
 
@@ -126,7 +127,7 @@ const setupRoutes = (app: Express) => {
 
   app.delete("/todo", async (req, res, next) => {
     try{
-      
+
       const todo = await todoRepository.findOne(req.body.todoId);
       if (!todo) return next(new Error("Invalid todo list ID!"));
 

@@ -14,7 +14,6 @@ export default class TodoList {
 
     @OneToOne(() => Todo, {
         nullable: true,
-        onDelete: "CASCADE"
     })
     @JoinColumn()
     parentTodo!: Todo | null ;
