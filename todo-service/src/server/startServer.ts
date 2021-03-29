@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import setupRoutes from "./routes"
 import cors from "cors"
 import setupLogger from "../middlewares/logger";
+import setupValidator from "../middlewares/validator";
 
 const PORT = 3300
 
@@ -18,6 +19,7 @@ const startServer = () => {
     );
     
     setupLogger(app)
+    setupValidator(app)
     setupRoutes(app);
     
     app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
