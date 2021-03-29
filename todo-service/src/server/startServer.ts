@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import setupRoutes from "./routes"
 import cors from "cors"
+import setupLogger from "../middlewares/logger";
 
 const PORT = 3300
 
@@ -15,6 +16,8 @@ const startServer = () => {
           origin: process.env.CLIENT_URL
         })
     );
+    
+    setupLogger(app)
     setupRoutes(app);
     
     app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
