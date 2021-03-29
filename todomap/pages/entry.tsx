@@ -13,7 +13,7 @@ const EntryPage = () => {
         axios
         .get(url+"/todo-list/nested/1")
         .then(({ data }):void => {
-            setRootLists( data[0].todos.map( ( rootTodo:TodoInterface ) => rootTodo.childList ) )
+            setRootLists( data.todos.map( ( rootTodo:TodoInterface ) => rootTodo.childList ) )
         })
         .catch((err) => console.log("Request failed!"));
     }, [])

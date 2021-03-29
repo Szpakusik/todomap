@@ -22,25 +22,24 @@ const DoubleViewPage = () => {
         await axios
         .get(url+"/todo-list/nested/"+rightHandList)
         .then(({ data }):void => {
-            setElapsedList( data[0] )
+            setElapsedList( data )
         })
         .catch((err) => console.log("Request failed!"));
     }
 
     useEffect(() => {
 
-
         axios
         .get(url+"/todo-list/nested/"+pid)
         .then(({ data }):void => {
-            setList( data[0] )
+            setList( data )
         })
         .catch((err) => console.log("Request failed!"));
 
         elapsed>-1 && axios
         .get(url+"/todo-list/nested/"+elapsed)
         .then(({ data }):void => {
-            setElapsedList( data[0] )
+            setElapsedList( data )
         })
         .catch((err) => console.log("Request failed!"));
 
