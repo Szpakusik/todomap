@@ -1,57 +1,44 @@
 import Todo from "../db/entities/Todo";
 import { Express, NextFunction, Request, Response } from "express";
 import { getConnection, getRepository, Repository } from "typeorm";
+import { todoListControllerFactory } from "../controllers/todoList"
+import { todoControllerFactory } from "../controllers/todo";
 
 import TodoList from "../db/entities/TodoList";
 
-
 const setupRoutes = async (app: Express) => {
+
+  const todoListController = await todoListControllerFactory()
+  const todoController = await todoControllerFactory()
 
   const connection = await getConnection();
   const todoListRepository = getRepository(TodoList);
   const todoRepository = getRepository(Todo);
   
-  app.post("/todo-list", errorHandlerWrapper( async (req: Request, res: Response, next: NextFunction) => {
+  app.post("/todo-list", errorHandlerWrapper( async (req: Request, res: Response, next: any) => {
 
-    const { title, todos, parentTodoId } = req.body
-    if ( !title || !parentTodoId ) return next(new Error("Invalid Body!"));
-
-    const parentTodo: Todo = await todoRepository.findOneOrFail(parentTodoId);
-    const newList: TodoList = { title, todos, parentTodo };
-    const result = await insertQuery(connection, TodoList, newList);
-
-    const addedTodoList = await todoListRepository.findOne(result.identifiers[0].id);
-    parentTodo.childList = <TodoList>addedTodoList;
-    todoRepository.save(parentTodo)
-
+    const result = await todoListController.addTodoList(req)
     res.json(result);
 
   } ) );
 
   app.get("/todo-list/:listId", errorHandlerWrapper( async (req: Request, res: Response, next: NextFunction) => {
 
-    const result = await todoListRepository.findOneOrFail(req.params.listId);
+    const result = await todoListController.getTodoList(req);
     res.json(result);
 
   } ) );
 
   app.get("/todo-list/nested/:listId", errorHandlerWrapper( async (req: Request, res: Response, next: NextFunction) => {
 
-    const result = await todoListRepository.findOneOrFail({
-      where: { id: req.params.listId },
-      relations: ["todos", "todos.childList", "todos.childList.todos"],
-    });
+    const result = await todoListController.getNestedList(req);
     res.json(result);
 
   } ) );
 
   app.delete("/todo-list", errorHandlerWrapper( async (req: Request, res: Response, next: NextFunction) => {
 
-    if (!req.body.todoListId) return next(new Error("Invalid Body!"));
-
-    const todoList = await todoListRepository.findOneOrFail(req.body.todoListId);
-    const result = await todoListRepository.remove(todoList);
-
+    const result = await todoListController.deleteTodoList(req)
     res.json(result);
 
   } ) );
@@ -60,30 +47,21 @@ const setupRoutes = async (app: Express) => {
 
   app.post("/todo", errorHandlerWrapper( async (req: Request, res: Response, next: NextFunction) => {
 
-    if (!req.body.body || !req.body.parentListId) return next( new Error("Invalid Body!") );
-
-    const list = await todoListRepository.findOneOrFail( req.body.parentListId );
-    const newTodo = {
-      body: req.body.body,
-      parentList: list,
-    };
-
-    const result = await insertQuery( connection, Todo, newTodo );
+    const result = await todoController.addTodo(req)
     res.json( result );
 
   } ) );
 
   app.get("/todo/:todoId", errorHandlerWrapper( async (req: Request, res: Response, next: NextFunction) => {
 
-    const result = await todoRepository.findOneOrFail( req.params.todoId );
+    const result = await todoController.getTodo(req)
     res.json( result );
 
   } ) );
 
   app.delete("/todo", errorHandlerWrapper( async (req: Request, res: Response, next: NextFunction) => {
 
-    const todo = await todoRepository.findOneOrFail( req.body.todoId );
-    const result = await todoRepository.remove( todo ) ;
+    const result = await todoController.deleteTodo(req);
     res.json(result);
 
   } ) );
@@ -91,7 +69,14 @@ const setupRoutes = async (app: Express) => {
 
 const errorHandlerWrapper = (fn: any) => (req: Request, res: any, next: any) => 
   Promise.resolve( fn(req, res, next) ).catch( e => { 
-    next( e.name ? new Error(e.name) : e )
+    // if(e.toString().includes("EntityNotFound")) e = "Entity not found"
+    console.log(typeof e);
+    console.log(Object.keys(e));
+    console.log(e.name, e.message);
+    
+    
+    // next( e.name ? new Error(e) : new Error("Entity not found") )
+    next( new Error(e.name) )
   } );
 
 const insertQuery = async ( connection: any, repository: any, values: any ) => {
